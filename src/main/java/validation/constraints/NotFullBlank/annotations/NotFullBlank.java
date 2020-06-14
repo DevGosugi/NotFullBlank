@@ -1,4 +1,4 @@
-package validation.constraints.annotations;
+package validation.constraints.NotFullBlank.annotations;
 
 //import javax.validation.constraints.NotBlank;
 import java.lang.annotation.ElementType;
