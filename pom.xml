@@ -8,11 +8,28 @@
     <artifactId>NotFullBlank</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <!-- 文字コード -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Javaバージョン -->
+        <java.version>11</java.version>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <!-- JUnitバージョン -->
+        <junit.jupiter.version>5.7.0-M1</junit.jupiter.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>2.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
