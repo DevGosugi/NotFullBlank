@@ -2,6 +2,7 @@ package validation.constraints.NotFullBlank;
 
 import org.junit.jupiter.api.Test;
 import validation.constraints.NotFullBlank.exceptions.FullBlankException;
+import validation.constraints.NotFullBlank.exceptions.NotStringException;
 import validation.constraints.NotFullBlank.testFields.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,6 +51,13 @@ class NotFullBlankExecutorTest {
                         fb,
                         fb.execute(new NotAnnotatedTest())
                 ), // NotAnnotated
+                () -> assertEquals(
+                        "Field 'notString' is not type String.",
+                        assertThrows(
+                                NotStringException.class,
+                                () -> fb.execute(new NotStringTest())
+                        ).getMessage()
+                ), // NotString
                 () -> assertEquals(
                         fb,
                         fb.execute(new ValidTest())
