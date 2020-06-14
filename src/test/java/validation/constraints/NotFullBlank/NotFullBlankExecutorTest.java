@@ -53,7 +53,12 @@ class NotFullBlankExecutorTest {
                 () -> assertEquals(
                         fb,
                         fb.execute(new ValidTest())
-                ) // Valid
+                ), // Valid
+                () -> assertEquals(
+                        fb,
+                        fb.execute(new NotAnnotatedTest())
+                                .execute(new ValidTest())
+                ) // NotAnnotated.Valid
         );
     }
 }
