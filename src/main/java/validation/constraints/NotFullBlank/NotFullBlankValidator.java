@@ -4,22 +4,40 @@ import validation.constraints.NotFullBlank.annotations.NotFullBlank;
 import validation.constraints.NotFullBlank.exceptions.FullBlankException;
 import validation.constraints.NotFullBlank.exceptions.NotStringException;
 
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
 import java.util.regex.Pattern;
 
-public class NotFullBlankExecutor {
-    private static final NotFullBlankExecutor INSTANCE = new NotFullBlankExecutor();
-    private NotFullBlankExecutor() {}
-
-    public static NotFullBlankExecutor getInstance() {
+public class NotFullBlankValidator implements ConstraintValidator<NotFullBlank, String> {
+    private static final NotFullBlankValidator INSTANCE = new NotFullBlankValidator();
+    private NotFullBlankValidator() {}
+    public static NotFullBlankValidator getInstance() {
         return INSTANCE;
     }
 
-    public NotFullBlankExecutor execute(Object obj) throws
+    private final String REGEXP = "^[ 　\n\t]+$";
+
+    @Override
+    public void initialize(NotFullBlank annotation) {}
+
+    @Override
+    public boolean isValid(String val, ConstraintValidatorContext context) {
+        if(val == null) {
+            return true;
+        }
+        return validate(val);
+    }
+
+    public boolean validate(String val) {
+        Pattern pattern = Pattern.compile(this.REGEXP);
+        return pattern.matcher(val).find(); // val.matches(this.REGEXP)
+    }
+
+    public NotFullBlankValidator multiValidate(Object obj) throws
             IllegalAccessException, FullBlankException,
             NotStringException {
-        String regexp = "^[ 　\n\t]+$";
-        Pattern pattern = Pattern.compile(regexp);
+        Pattern pattern = Pattern.compile(this.REGEXP);
 
         Field[] fields = obj.getClass().getDeclaredFields();
         for(Field f: fields) {
@@ -33,7 +51,7 @@ public class NotFullBlankExecutor {
             }
             f.setAccessible(true);
             String val = f.get(obj).toString();
-            if(pattern.matcher(val).find()) { // if(val.matches(regexp))
+            if(pattern.matcher(val).find()) { // if(val.matches(this.REGEXP))
                 throw new FullBlankException("Field '" + f.getName() + "' consists of half-width spaces, full-width spaces, line breaks, or tabs.");
             }
         }
