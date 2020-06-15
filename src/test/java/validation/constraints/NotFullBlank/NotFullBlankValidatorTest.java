@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class NotFullBlankExecutorTest {
     @Test
     public void test() {
-        NotFullBlankExecutor fb = NotFullBlankExecutor.getInstance();
+        NotFullBlankValidator fb = NotFullBlankValidator.getInstance();
         assertAll(
                 () -> assertEquals(
                         "Field 'invalid' consists of half-width spaces, full-width spaces, line breaks, or tabs.",
