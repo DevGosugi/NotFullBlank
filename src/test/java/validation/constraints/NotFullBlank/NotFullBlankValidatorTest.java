@@ -7,65 +7,65 @@ import validation.constraints.NotFullBlank.testFields.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class NotFullBlankExecutorTest {
+class NotFullBlankValidatorTest {
     @Test
-    public void test() {
+    public void testMultiValidate() {
         NotFullBlankValidator fb = NotFullBlankValidator.getInstance();
         assertAll(
                 () -> assertEquals(
                         "Field 'invalid' consists of half-width spaces, full-width spaces, line breaks, or tabs.",
                         assertThrows(
                                 FullBlankException.class,
-                                () -> fb.execute(new HalfBlanksTest())
+                                () -> fb.multiValidate(new HalfBlanksTest())
                         ).getMessage()
                 ), // HalfBlanks
                 () -> assertEquals(
                         "Field 'invalid' consists of half-width spaces, full-width spaces, line breaks, or tabs.",
                         assertThrows(
                                 FullBlankException.class,
-                                () -> fb.execute(new FullBlanksTest())
+                                () -> fb.multiValidate(new FullBlanksTest())
                         ).getMessage()
                 ), // FullBlanks
                 () -> assertEquals(
                         "Field 'invalid' consists of half-width spaces, full-width spaces, line breaks, or tabs.",
                         assertThrows(
                                 FullBlankException.class,
-                                () -> fb.execute(new BreaksTest())
+                                () -> fb.multiValidate(new BreaksTest())
                         ).getMessage()
                 ), // Breaks
                 () -> assertEquals(
                         "Field 'invalid' consists of half-width spaces, full-width spaces, line breaks, or tabs.",
                         assertThrows(
                                 FullBlankException.class,
-                                () -> fb.execute(new TabsTest())
+                                () -> fb.multiValidate(new TabsTest())
                         ).getMessage()
                 ), // Tabs
                 () -> assertEquals(
                         "Field 'invalid' consists of half-width spaces, full-width spaces, line breaks, or tabs.",
                         assertThrows(
                                 FullBlankException.class,
-                                () -> fb.execute(new AllFullBlanksTest())
+                                () -> fb.multiValidate(new AllFullBlanksTest())
                         ).getMessage()
                 ), // AllFullBlanks
                 () -> assertEquals(
                         fb,
-                        fb.execute(new NotAnnotatedTest())
+                        fb.multiValidate(new NotAnnotatedTest())
                 ), // NotAnnotated
                 () -> assertEquals(
                         "Field 'notString' is not type String.",
                         assertThrows(
                                 NotStringException.class,
-                                () -> fb.execute(new NotStringTest())
+                                () -> fb.multiValidate(new NotStringTest())
                         ).getMessage()
                 ), // NotString
                 () -> assertEquals(
                         fb,
-                        fb.execute(new ValidTest())
+                        fb.multiValidate(new ValidTest())
                 ), // Valid
                 () -> assertEquals(
                         fb,
-                        fb.execute(new NotAnnotatedTest())
-                                .execute(new ValidTest())
+                        fb.multiValidate(new NotAnnotatedTest())
+                                .multiValidate(new ValidTest())
                 ) // NotAnnotated.Valid
         );
     }
